@@ -31,6 +31,8 @@ class Settings(BaseSettings):
             "app.modules.analysis.module",
             "app.modules.ai.module",
             "app.modules.incident.module",
+            "app.modules.actions.module",
+            "app.modules.alerts.module",
         ]
     )
     auto_discover_modules: bool = True
