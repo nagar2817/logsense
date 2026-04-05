@@ -27,6 +27,7 @@ class Settings(BaseSettings):
             "app.modules.auth.module",
             "app.modules.email.module",
             "app.modules.system.module",
+            "app.modules.logs.module",
         ]
     )
     auto_discover_modules: bool = True
