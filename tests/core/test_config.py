@@ -39,6 +39,12 @@ def test_settings_load_defaults() -> None:
         "app.modules.auth.module",
         "app.modules.email.module",
         "app.modules.system.module",
+        "app.modules.logs.module",
+        "app.modules.analysis.module",
+        "app.modules.ai.module",
+        "app.modules.incident.module",
+        "app.modules.actions.module",
+        "app.modules.alerts.module",
     ]
     assert settings.environment == "local"
     assert settings.debug is False
