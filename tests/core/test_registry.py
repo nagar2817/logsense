@@ -2,8 +2,9 @@ from types import SimpleNamespace
 
 from fastapi import APIRouter
 from fastapi import FastAPI
+from celery import Celery
 
-from app.core.bootstrap import bootstrap_app
+from app.core.bootstrap import bootstrap_app, bootstrap_celery_tasks
 from app.core.config import Settings
 from app.core.registry import ModuleRegistry
 
@@ -55,7 +56,10 @@ def test_bootstrap_app_registers_routes_and_tasks(monkeypatch) -> None:
     monkeypatch.setattr(ModuleRegistry, "load_modules", lambda self: [module])
 
     modules = bootstrap_app(app=app, settings=settings)
+    celery = Celery("test")
+    tasks = bootstrap_celery_tasks(celery_app=celery, settings=settings)
 
     assert modules == [module]
+    assert tasks == []
     assert module.task_registered is True
     assert "/api/v1/status" in {route.path for route in app.routes}

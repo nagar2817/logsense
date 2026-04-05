@@ -7,7 +7,7 @@ from fastapi import APIRouter, FastAPI
 from fastapi.testclient import TestClient
 
 from app.core.base_job import BaseJob
-from app.core.bootstrap import bootstrap_app
+from app.core.bootstrap import bootstrap_app, bootstrap_celery_tasks
 from app.core.config import Settings
 from app.core.exceptions.domain import ExternalServiceException
 from app.core.exceptions.http import (
@@ -166,9 +166,11 @@ def test_protected_endpoint_requires_api_key() -> None:
     ModuleRegistry.load_modules = lambda self: [module]
     try:
         modules = bootstrap_app(app=boot_app, settings=Settings(auto_discover_modules=False))
+        tasks = bootstrap_celery_tasks(celery_app=Celery("test"), settings=Settings(auto_discover_modules=False))
     finally:
         ModuleRegistry.load_modules = original_load_modules
     assert modules == [module]
+    assert tasks == []
     assert module.registered is True
     assert "/api/v1/status" in {route.path for route in boot_app.routes}
 

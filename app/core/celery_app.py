@@ -1,6 +1,8 @@
 from celery import Celery
 
+from app.core.bootstrap import bootstrap_celery_tasks
 from app.core.config import Settings
+from app.core.database import initialize_database
 
 
 settings = Settings()
@@ -14,3 +16,5 @@ celery_app.conf.update(
     result_serializer="json",
     task_acks_late=True,
 )
+initialize_database(settings=settings)
+bootstrap_celery_tasks(celery_app=celery_app, settings=settings)
