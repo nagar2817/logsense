@@ -58,3 +58,17 @@ class LogRepository:
                 (limit,),
             ).fetchall()
         return [LogRecord.model_validate(dict(row)) for row in rows]
+
+    def list_by_fingerprint(self, *, fingerprint: str, limit: int) -> list[LogRecord]:
+        with get_connection(settings=self.settings) as connection:
+            rows = connection.execute(
+                """
+                SELECT id, service, level, message, fingerprint, timestamp, created_at
+                FROM logs
+                WHERE fingerprint = ?
+                ORDER BY timestamp DESC
+                LIMIT ?
+                """,
+                (fingerprint, limit),
+            ).fetchall()
+        return [LogRecord.model_validate(dict(row)) for row in rows]

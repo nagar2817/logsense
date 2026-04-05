@@ -28,6 +28,7 @@ class Settings(BaseSettings):
             "app.modules.email.module",
             "app.modules.system.module",
             "app.modules.logs.module",
+            "app.modules.analysis.module",
         ]
     )
     auto_discover_modules: bool = True

@@ -10,6 +10,9 @@ class StartLogPipelineJob(BaseJob):
     name = "logs.start_pipeline"
 
     def run(self, payload: dict[str, Any]) -> dict[str, Any]:
+        from app.modules.analysis.jobs import cluster_logs_job
+
+        cluster_logs_job.delay(payload)
         return {
             "message_key": "logs.ingested",
             "log_id": payload["log_id"],
