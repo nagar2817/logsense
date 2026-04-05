@@ -29,6 +29,7 @@ class Settings(BaseSettings):
             "app.modules.system.module",
             "app.modules.logs.module",
             "app.modules.analysis.module",
+            "app.modules.ai.module",
         ]
     )
     auto_discover_modules: bool = True
